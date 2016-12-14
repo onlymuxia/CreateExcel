@@ -22,3 +22,4 @@ D:\projects\VisualStudio\CSharp_Test\ExcelExport\ExcelExport\bin\Release\NPOI.Op
 D:\projects\VisualStudio\CSharp_Test\ExcelExport\ExcelExport\obj\x86\Release\Onlymuxia.ExcelOperation.createExcelForm.resources
 D:\projects\VisualStudio\CSharp_Test\ExcelExport\ExcelExport\obj\x86\Release\ExcelExport.Properties.Resources.resources
 D:\projects\VisualStudio\CSharp_Test\ExcelExport\ExcelExport\obj\x86\Release\ExcelExport.csproj.GenerateResource.Cache
+D:\projects\VisualStudio\CSharp_Test\ExcelExport\ExcelExport\obj\x86\Release\ExcelExport.csprojResolveAssemblyReference.cache
