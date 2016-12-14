@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelExport", "ExcelExport\ExcelExport.csproj", "{2646D275-2854-454D-BF84-3CDADF71F17F}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ExcelCreator", "ExcelCreatorSetup\ExcelCreatorSetup.vdproj", "{DCB0C124-8667-44C3-87E3-D785F53C4B75}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2646D275-2854-454D-BF84-3CDADF71F17F}.Debug|x86.ActiveCfg = Debug|x86
+		{2646D275-2854-454D-BF84-3CDADF71F17F}.Debug|x86.Build.0 = Debug|x86
+		{2646D275-2854-454D-BF84-3CDADF71F17F}.Release|x86.ActiveCfg = Release|x86
+		{2646D275-2854-454D-BF84-3CDADF71F17F}.Release|x86.Build.0 = Release|x86
+		{DCB0C124-8667-44C3-87E3-D785F53C4B75}.Debug|x86.ActiveCfg = Debug
+		{DCB0C124-8667-44C3-87E3-D785F53C4B75}.Debug|x86.Build.0 = Debug
+		{DCB0C124-8667-44C3-87E3-D785F53C4B75}.Release|x86.ActiveCfg = Release
+		{DCB0C124-8667-44C3-87E3-D785F53C4B75}.Release|x86.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
