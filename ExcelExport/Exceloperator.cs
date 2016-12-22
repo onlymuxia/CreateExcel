@@ -18,21 +18,13 @@ namespace Onlymuxia.ExcelOperation
             try
             {
                 hssfworkbook = new HSSFWorkbook();
-                wb = hssfworkbook.CreateSheet("Sheet1");
+                currentSheet = hssfworkbook.CreateSheet("Sheet1");
                 hssfworkbook.CreateSheet("Sheet2");
                 hssfworkbook.CreateSheet("Sheet3");
 
-
-                HSSFCellStyle style = (HSSFCellStyle)hssfworkbook.CreateCellStyle();
-                //设置边框格式  
-                style.Alignment = HorizontalAlignment.Center;
-                IFont font = hssfworkbook.CreateFont();
-                font.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
-                style.SetFont(font);//HEAD 样式
-
-                IRow row = wb.CreateRow(0);
+                IRow row = currentSheet.CreateRow(0);
                 ICell cell = row.CreateCell(0);
-                wb.SetColumnWidth(0, 20 * 256);
+                currentSheet.SetColumnWidth(0, 20 * 256);
                 cell.SetCellValue("时间");
                 cell.CellStyle = HeadStyle(); 
                 //cell.CellStyle = Getcellstyle(wb, stylexls.头);
@@ -105,7 +97,7 @@ namespace Onlymuxia.ExcelOperation
         {
             Current++;
 
-            IRow row = wb.CreateRow(Current);
+            IRow row = currentSheet.CreateRow(Current);
             ICell cell = row.CreateCell(0);
             cell.SetCellValue(date);
             cell.CellStyle = TimeDataStyle();
@@ -151,42 +143,68 @@ namespace Onlymuxia.ExcelOperation
 
         public HSSFWorkbook hssfworkbook { get; set; }
 
-        public ISheet wb { get; set; }
+        public ISheet currentSheet { get; set; }
 
+        private ICellStyle textDataStyle;
+        private ICellStyle timeDataStyle;
+        private ICellStyle digitDataStyle;
+
+        private ICellStyle headStyle;
         public ICellStyle TextDataStyle(){
-            IDataFormat dataformat = hssfworkbook.CreateDataFormat(); 
-            ICellStyle style = hssfworkbook.CreateCellStyle();
-            style.Alignment = HorizontalAlignment.Center;
-            return style;
+            if (textDataStyle == null)
+            {
+                IDataFormat dataformat = hssfworkbook.CreateDataFormat();
+                textDataStyle = hssfworkbook.CreateCellStyle();
+                textDataStyle.Alignment = HorizontalAlignment.Center;
+            }
+            return textDataStyle;
         }
         public ICellStyle TimeDataStyle()
         {
-            IDataFormat dataformat = hssfworkbook.CreateDataFormat();
-            ICellStyle style = hssfworkbook.CreateCellStyle();
-            style.Alignment = HorizontalAlignment.Center;
-            style.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Lime.Index;
-            style.FillPattern = FillPattern.SolidForeground;
-            return style;
+            if (timeDataStyle == null)
+            {
+                IDataFormat dataformat = hssfworkbook.CreateDataFormat();
+                timeDataStyle = hssfworkbook.CreateCellStyle();
+                timeDataStyle.Alignment = HorizontalAlignment.Center;
+                timeDataStyle.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Lime.Index;
+                timeDataStyle.FillPattern = FillPattern.SolidForeground;
+                HSSFPalette palette = hssfworkbook.GetCustomPalette();  //wb HSSFWorkbook对象
+                palette.SetColorAtIndex((short)61, (byte)(32), (byte)(218), (byte)(80));
+                timeDataStyle.FillForegroundColor = (short)61;
+
+            }
+            return timeDataStyle;
         }
         public ICellStyle DigitDataStyle()
         {
-            IDataFormat dataformat = hssfworkbook.CreateDataFormat();
-            ICellStyle style = hssfworkbook.CreateCellStyle();
-            style.Alignment = HorizontalAlignment.Center;
-            style.DataFormat = dataformat.GetFormat("0.0"); //改变小数精度【小数点后有几个0表示精确到小数点后几位】 
-            return style;
+            if (digitDataStyle == null)
+            {
+                IDataFormat dataformat = hssfworkbook.CreateDataFormat();
+                digitDataStyle = hssfworkbook.CreateCellStyle();
+                digitDataStyle.Alignment = HorizontalAlignment.Center;
+                digitDataStyle.DataFormat = dataformat.GetFormat("0.0"); //改变小数精度【小数点后有几个0表示精确到小数点后几位】 
+            }
+            return digitDataStyle;
         }
         public ICellStyle HeadStyle()
         {
-            IDataFormat dataformat = hssfworkbook.CreateDataFormat();
-            ICellStyle style = hssfworkbook.CreateCellStyle();
-            style.Alignment = HorizontalAlignment.Center;
-            IFont font = hssfworkbook.CreateFont();
-            font.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
-            style.SetFont(font);//HEAD 样式
-            style.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.DarkYellow.Index;
-            style.FillPattern = FillPattern.SolidForeground;
-            return style;
+            if (headStyle == null)
+            {
+                IDataFormat dataformat = hssfworkbook.CreateDataFormat();
+                headStyle = hssfworkbook.CreateCellStyle();
+                headStyle.Alignment = HorizontalAlignment.Center;
+
+                IFont font = hssfworkbook.CreateFont();
+                font.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
+                headStyle.SetFont(font);//HEAD 样式
+
+                HSSFPalette palette = hssfworkbook.GetCustomPalette();  //wb HSSFWorkbook对象
+                palette.SetColorAtIndex((short)60, (byte)(6), (byte)(238), (byte)(66));
+                headStyle.FillForegroundColor = (short)60;
+
+                headStyle.FillPattern = FillPattern.SolidForeground;
+            }
+            return headStyle;
         }
     }
 }

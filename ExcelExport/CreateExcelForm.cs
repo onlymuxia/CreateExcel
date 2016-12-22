@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Runtime.InteropServices;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Onlymuxia.ExcelOperation
 {
@@ -38,6 +39,15 @@ namespace Onlymuxia.ExcelOperation
         private void tbSave_Click(object sender, EventArgs e)
         {
             saveFileDialog.Filter = "Execl files (*.xls)|*.xls";
+           
+            if (Directory.Exists(outFile))
+            {
+                saveFileDialog.InitialDirectory = outFile;
+            }
+            else if (File.Exists(outFile))
+            {
+                saveFileDialog.InitialDirectory = Path.GetDirectoryName(outFile).ToString(); 
+            }
             DialogResult result = saveFileDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -58,7 +68,7 @@ namespace Onlymuxia.ExcelOperation
         // 第一步：定义委托类型
         // 将text更新的界面控件的委托类型
         delegate void SetTextCallback(string text);
-
+        Regex reg = new Regex(@"^([a-zA-Z]:\\)?[^\/\:\*\?\""\<\>\|\,]*$");
         //第二步：定义线程的主体方法
         /// <summary>
         /// 线程的主体方法
@@ -71,11 +81,20 @@ namespace Onlymuxia.ExcelOperation
                 {
                     executing = true;
 
+                    
+
                     if (File.Exists(infile))
                     {
-                        TextHandler handler = new TextHandler(infile, outFile);
-                        handler.execute();
-                        this.SetText("生成成功");
+                        if(reg.IsMatch(outFile))
+                        {
+                            TextHandler handler = new TextHandler(infile, outFile);
+                            handler.execute();
+                            this.SetText("生成成功");
+                        }
+                        else
+                        {
+                            this.SetText("导出文件填写不正确");
+                        }
                     }
                     else
                     {
@@ -126,7 +145,69 @@ namespace Onlymuxia.ExcelOperation
         private void tbIn_TextChanged(object sender, EventArgs e)
         {
             infile = tbIn.Text;
+            if (String.IsNullOrEmpty(outFile))
+            {
+                tbOut.Text = infile.Replace(".txt", "") + ".xls";
+            }
         }
 
+        private void tbOut_TextChanged(object sender, EventArgs e)
+        {
+            outFile = tbOut.Text ;
+        }
+        private void tb_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Link; //重要代码：表明是链接类型的数据，比如文件路径
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void tbIn_DragDrop(object sender, DragEventArgs e)
+        {
+            string path = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+            tbIn.Text = path;
+        }
+
+        private void tbOut_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Link; //重要代码：表明是链接类型的数据，比如文件路径
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void tbOut_DragDrop(object sender, DragEventArgs e)
+        {
+            string path = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+            tbOut.Text = path;
+        }
+
+        private void 强制退出ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void 退出ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            while (executing)
+            {
+                System.Threading.Thread.Sleep(1000);
+            }
+            this.Close();
+        }
+
+        private void 帮助ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new About().ShowDialog();
+        }
     }
 }
