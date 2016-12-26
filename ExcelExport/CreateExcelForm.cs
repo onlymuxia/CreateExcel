@@ -111,7 +111,7 @@ namespace Onlymuxia.ExcelOperation
                     }
                     else
                     {
-                        MessageBox.Show("Error:" + ex.Message);
+                        MessageBox.Show("Error:" + ex.Message,"生成异常",MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
 

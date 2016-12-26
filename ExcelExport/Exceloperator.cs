@@ -42,7 +42,7 @@ namespace Onlymuxia.ExcelOperation
                 cell.CellStyle = HeadStyle();
 
                 cell = row.CreateCell(4);
-                cell.SetCellValue("风速");
+                cell.SetCellValue("噪声");
                 cell.CellStyle = HeadStyle();
 
                 cell = row.CreateCell(5);
@@ -103,39 +103,102 @@ namespace Onlymuxia.ExcelOperation
             cell.CellStyle = TimeDataStyle();
 
             cell = row.CreateCell(1);
-            cell.SetCellValue(pm25);
+            if (pm25 == -1)
+            {
+                cell.SetCellValue("--");
+            }
+            else
+            {
+                cell.SetCellValue(pm25);
+            }
             cell.CellStyle = TextDataStyle();
 
             cell = row.CreateCell(2);
-            cell.SetCellValue(pm10);
+            if (pm10 == -1)
+            {
+                cell.SetCellValue("--");
+            }
+            else
+            {
+                cell.SetCellValue(pm10);
+            }
             cell.CellStyle = TextDataStyle();
 
             cell = row.CreateCell(3);
-            cell.SetCellValue(tsp);
+            if (tsp == -1)
+            {
+                cell.SetCellValue("--");
+            }
+            else
+            {
+                cell.SetCellValue(tsp);
+            }
             cell.CellStyle = TextDataStyle();
 
             cell = row.CreateCell(4);
-            cell.SetCellValue(noise);
+            if (Double.IsNaN(noise))
+            {
+                cell.SetCellValue("--");
+            }
+            else
+            {
+                cell.SetCellValue(noise);
+            }
             cell.CellStyle = DigitDataStyle();
 
             cell = row.CreateCell(5);
-            cell.SetCellValue(velocity);
+            if (Double.IsNaN(velocity))
+            {
+                cell.SetCellValue("--");
+            }
+            else
+            {
+                cell.SetCellValue(velocity);
+            }
             cell.CellStyle = DigitDataStyle();
 
             cell = row.CreateCell(6);
-            cell.SetCellValue(vanes[vane]);
+            if (vane > 15 || vane<0)
+            {
+                cell.SetCellValue("异常:" + vane);
+            }
+            else
+            {
+                cell.SetCellValue(vanes[vane]);
+            }
             cell.CellStyle = TextDataStyle();
 
             cell = row.CreateCell(7);
-            cell.SetCellValue(temperature);
+            if (Double.IsNaN(temperature))
+            {
+                cell.SetCellValue("--");
+            }
+            else
+            {
+                cell.SetCellValue(temperature);
+            }
             cell.CellStyle = DigitDataStyle();
 
             cell = row.CreateCell(8);
-            cell.SetCellValue(humidity);
+            if (Double.IsNaN(humidity))
+            {
+                cell.SetCellValue("--");
+            }
+            else
+            {
+                cell.SetCellValue(humidity);
+            }
             cell.CellStyle = DigitDataStyle();
 
             cell = row.CreateCell(9);
-            cell.SetCellValue(barometric);
+            if (Double.IsNaN(barometric))
+            {
+                cell.SetCellValue("--");
+            }
+            else
+            {
+                cell.SetCellValue(barometric);
+            }
             cell.CellStyle = DigitDataStyle(); 
         }
 
